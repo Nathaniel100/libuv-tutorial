@@ -66,5 +66,4 @@ dkms.conf
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-build/tcp-echo-client
-build/tcp-echo-server
+build/
