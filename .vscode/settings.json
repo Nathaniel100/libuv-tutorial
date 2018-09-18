@@ -5,6 +5,8 @@
     "unix.h": "c",
     "iterator": "c",
     "memory": "c",
-    "__locale": "c"
-  }
+    "__locale": "c",
+    "istream": "c"
+  },
+  "C_Cpp.configurationWarnings": "Disabled"
 }
