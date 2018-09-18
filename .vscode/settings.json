@@ -1,0 +1,10 @@
+{
+  "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
+  "files.associations": {
+    "uv.h": "c",
+    "unix.h": "c",
+    "iterator": "c",
+    "memory": "c",
+    "__locale": "c"
+  }
+}
