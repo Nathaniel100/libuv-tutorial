@@ -5,6 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "(lldb) daytime-client",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/daytime-client",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "lldb"
+    },
+    {
       "name": "(lldb) uvcat",
       "type": "cppdbg",
       "request": "launch",

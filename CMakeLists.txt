@@ -23,6 +23,9 @@ target_link_libraries(tcp-echo-client ${LIBUV_LIBRARIES})
 add_executable(daytime-server daytime/server.c)
 target_link_libraries(daytime-server ${LIBUV_LIBRARIES})
 
+add_executable(daytime-client daytime/client.c)
+target_link_libraries(daytime-client ${LIBUV_LIBRARIES})
+
 add_executable(uvcat uvcat/main.c)
 target_link_libraries(uvcat ${LIBUV_LIBRARIES})
 
