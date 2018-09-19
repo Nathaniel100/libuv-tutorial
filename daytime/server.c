@@ -1,6 +1,7 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 #include <uv.h>
 
 #define DEFAULT_PORT 12346
