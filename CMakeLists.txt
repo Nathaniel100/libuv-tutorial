@@ -11,6 +11,9 @@ include_directories(${LIBUV_INCLUDE_DIRS})
 add_executable(hello-world hello-world/main.c)
 target_link_libraries(hello-world ${LIBUV_LIBRARIES})
 
+add_executable(idle-basic idle-basic/main.c)
+target_link_libraries(idle-basic ${LIBUV_LIBRARIES})
+
 add_executable(tcp-echo-server tcp-echo/server.c)
 target_link_libraries(tcp-echo-server ${LIBUV_LIBRARIES})
 
