@@ -5,6 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "(lldb) udp-echo-server",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/udp-echo-server",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "lldb"
+    },
+    {
       "name": "(lldb) daytime-client",
       "type": "cppdbg",
       "request": "launch",
@@ -21,7 +33,9 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/uvcat",
-      "args": ["${workspaceFolder}/CMakeLists.txt"],
+      "args": [
+        "${workspaceFolder}/CMakeLists.txt"
+      ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
