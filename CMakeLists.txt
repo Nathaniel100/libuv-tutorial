@@ -23,6 +23,9 @@ target_link_libraries(tcp-echo-client ${LIBUV_LIBRARIES})
 add_executable(udp-echo-server udp-echo/server.c)
 target_link_libraries(udp-echo-server ${LIBUV_LIBRARIES})
 
+add_executable(udp-echo-client udp-echo/client.c)
+target_link_libraries(udp-echo-client ${LIBUV_LIBRARIES})
+
 add_executable(daytime-server daytime/server.c)
 target_link_libraries(daytime-server ${LIBUV_LIBRARIES})
 
