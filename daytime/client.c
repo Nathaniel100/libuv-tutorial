@@ -20,7 +20,7 @@ void on_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
       fprintf(stderr, "read failed: %s", uv_strerror(nread));
     }
   } else if (nread > 0) {
-    printf("%s\n", buf->base);
+    printf("%.*s\n", (int)nread, buf->base);
   }
 
   free(buf->base);
