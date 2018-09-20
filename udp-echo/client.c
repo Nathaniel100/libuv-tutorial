@@ -5,6 +5,7 @@
 #include <uv.h>
 
 #define DEFAULT_PORT 12347
+#define DEFAULT_BUFFER_SIZE 1024
 
 typedef struct echo_client {
   uv_loop_t *loop;
@@ -32,7 +33,7 @@ static void on_alloc(uv_handle_t *handle, size_t suggested_size,
 static void on_recv(uv_udp_t *udp, ssize_t nread, const uv_buf_t *buf,
                     const struct sockaddr *addr, unsigned flags) {
   if (nread > 0) {                     
-    printf("%s\n", buf->base);
+    printf("recv: %.*s\n", (int)nread, buf->base);
     echo(udp, addr);
   } else if (nread < 0) {
     if (nread != UV_EOF) {
@@ -50,12 +51,26 @@ static void on_send(uv_udp_send_t *req, int status) {
   free_send_req((send_req_t *)req);
 }
 
+uv_buf_t input_from_stdin() {
+  char *buffer = (char *)malloc(DEFAULT_BUFFER_SIZE);
+  int len = 0;
+  memset(buffer, 0, DEFAULT_BUFFER_SIZE);
+  while(fgets(buffer, DEFAULT_BUFFER_SIZE, stdin)) {
+    len = strlen(buffer);
+    if (len <= 1) { // 未输入
+      printf("Please enter again\n");
+      continue;
+    }
+    buffer[len - 1] = 0; // 将'\n'转换为'\0'
+    len -= 1;
+    break;
+  }
+  return uv_buf_init(buffer, len);
+}
+
 void echo(uv_udp_t *udp, const struct sockaddr *dest) {
-  char *buffer = (char *)malloc(1024);
-  memset(buffer, 0, 1024);
-  fgets(buffer, 1024, stdin);
   send_req_t *sr = (send_req_t *)malloc(sizeof(send_req_t));
-  sr->buf = uv_buf_init(buffer, strlen(buffer));
+  sr->buf = input_from_stdin();
   uv_udp_send((uv_udp_send_t *)sr, udp, &sr->buf, 1, dest, on_send);
   uv_udp_recv_start(udp, on_alloc, on_recv);
 }

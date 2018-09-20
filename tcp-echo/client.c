@@ -22,14 +22,26 @@ void on_write(uv_write_t *req, int status);
 void on_alloc(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf);
 void on_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf);
 
-void echo(uv_stream_t *tcp) {
+uv_buf_t input_from_stdin() {
   char *buffer = (char *)malloc(DEFAULT_BUFFER_SIZE);
+  int len = 0;
   memset(buffer, 0, DEFAULT_BUFFER_SIZE);
-  write_req_t *req = (write_req_t *)malloc(sizeof(write_req_t));
-  req->buf = uv_buf_init(buffer, DEFAULT_BUFFER_SIZE);
+  while(fgets(buffer, DEFAULT_BUFFER_SIZE, stdin)) {
+    len = strlen(buffer);
+    if (len <= 1) { // 未输入
+      printf("Please enter again\n");
+      continue;
+    }
+    buffer[len - 1] = 0; // 将'\n'转换为'\0'
+    len -= 1;
+    break;
+  }
+  return uv_buf_init(buffer, len);
+}
 
-  fgets(buffer, DEFAULT_BUFFER_SIZE, stdin);
-  req->buf.len = strlen(buffer);
+void echo(uv_stream_t *tcp) {
+  write_req_t *req = (write_req_t *)malloc(sizeof(write_req_t));
+  req->buf = input_from_stdin();
   uv_write((uv_write_t *)req, tcp, &req->buf, 1, on_write);
   uv_read_start((uv_stream_t *)tcp, on_alloc, on_read);
 }
@@ -41,7 +53,7 @@ void on_alloc(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf) {
 
 void on_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
   if (nread > 0) {
-    printf("result: %s\n", buf->base);
+    printf("recv: %.*s\n", (int)nread, buf->base);
     echo(client);
   }
   if (nread < 0) {
